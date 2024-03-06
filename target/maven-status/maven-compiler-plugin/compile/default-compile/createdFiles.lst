@@ -1,0 +1,6 @@
+com\zhuoxin\whitelist\event\EventListener.class
+com\zhuoxin\whitelist\util\DatabaseInitializer.class
+com\zhuoxin\whitelist\command\CommandDeal.class
+com\zhuoxin\whitelist\util\JdbcUtil.class
+com\zhuoxin\whitelist\Whitelist.class
+com\zhuoxin\whitelist\util\dbOperate.class
