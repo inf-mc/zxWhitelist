@@ -1,6 +1,5 @@
 package com.zhuoxin.whitelist.command;
 
-
 import com.zhuoxin.whitelist.Whitelist;
 import com.zhuoxin.whitelist.util.dbOperate;
 import org.bukkit.command.Command;
@@ -10,62 +9,52 @@ import org.bukkit.command.CommandSender;
 public class CommandDeal implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        // 如果命令发送者有这个命令的权限
-        if (commandSender.hasPermission("Whitelist.commands.whitelistaddplayer")) {
-            // 判断匹配的命令
-            if (command.getName().equalsIgnoreCase("whitelistaddplayer")) {
-                // 判断是否发送了用户名
-                if (strings.length == 1) {
-                    // 判断用户名是否合法
-                    if (strings[0].matches(Whitelist.userNameRule)) {
-                        // 执行插入，返回布尔类型的结果
-                        if (dbOperate.insertName(strings[0])) {
-                            commandSender.sendMessage(command.getName() + " " + strings[0]);
-                            commandSender.sendMessage("done");
-                            return true;
-                        } else {
-                            commandSender.sendMessage(command.getName() + " " + strings[0]);
-                            commandSender.sendMessage("insert failed");
-                            return false;
-                        }
-                    } else {
-                        commandSender.sendMessage(command.getName() + " " + strings[0]);
-                        commandSender.sendMessage("userName is illegal");
-                    }
-                } else {
-                    commandSender.sendMessage(command.getName() + " " + strings[0]);
-                    commandSender.sendMessage("wrong format");
-                    return false;
-                }
-            }
-            // 判断匹配的命令
-            if (command.getName().equalsIgnoreCase("whitelistdeleteplayer")) {
-                if (strings.length == 1) {
-                    if (dbOperate.deleteName(strings[0])) {
-                        commandSender.sendMessage(command.getName() + " " + strings[0]);
-                        commandSender.sendMessage("done");
-                        return true;
-                    } else {
-                        commandSender.sendMessage(command.getName() + " " + strings[0]);
-                        commandSender.sendMessage("delete failed");
-                        return false;
-                    }
-                } else {
-                    commandSender.sendMessage(command.getName() + " " + strings[0]);
-                    commandSender.sendMessage("wrong format");
-                    return false;
-                }
-            }
-            //判断匹配的命令
-            if (command.getName().equalsIgnoreCase("whitelistinquire")) {
-                commandSender.sendMessage(command.getName());
-                commandSender.sendMessage(dbOperate.selectAll().toString());
-                return true;
-            }
+        // 检查权限
+        if (!commandSender.hasPermission("Whitelist.commands.whitelistaddplayer")) {
+            commandSender.sendMessage("no permission");
+            return false;
+        }
+
+        // 判断命令名称
+        if (command.getName().equalsIgnoreCase("whitelistaddplayer") && strings.length == 1) {
+            return processAddPlayerCommand(commandSender, strings[0]);
+        } else if (command.getName().equalsIgnoreCase("whitelistdeleteplayer") && strings.length == 1) {
+            return processDeletePlayerCommand(commandSender, strings[0]);
+        } else if (command.getName().equalsIgnoreCase("whitelistinquire")) {
+            return processInquireCommand(commandSender);
+        } else {
             commandSender.sendMessage("wrong command");
             return false;
         }
-        commandSender.sendMessage("no permission");
+    }
+
+    private boolean processAddPlayerCommand(CommandSender commandSender, String playerName) {
+        // 判断用户名是否合法
+        if (playerName.matches(Whitelist.userNameRule)) {
+            if (dbOperate.insertName(playerName)) {
+                commandSender.sendMessage("done");
+                return true;
+            } else {
+                commandSender.sendMessage("insert failed");
+            }
+        } else {
+            commandSender.sendMessage("userName is illegal");
+        }
         return false;
+    }
+
+    private boolean processDeletePlayerCommand(CommandSender commandSender, String playerName) {
+        if (dbOperate.deleteName(playerName)) {
+            commandSender.sendMessage("done");
+            return true;
+        } else {
+            commandSender.sendMessage("delete failed");
+            return false;
+        }
+    }
+
+    private boolean processInquireCommand(CommandSender commandSender) {
+        commandSender.sendMessage(dbOperate.selectAll().toString());
+        return true;
     }
 }
