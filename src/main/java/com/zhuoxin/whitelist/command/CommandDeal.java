@@ -14,18 +14,17 @@ public class CommandDeal implements CommandExecutor {
             commandSender.sendMessage("no permission");
             return false;
         }
-
         // 判断命令名称
-        if (command.getName().equalsIgnoreCase("whitelistaddplayer") && strings.length == 1) {
+        if (command.getName().equalsIgnoreCase("whitelistaddplayer") && strings.length == 1)
             return processAddPlayerCommand(commandSender, strings[0]);
-        } else if (command.getName().equalsIgnoreCase("whitelistdeleteplayer") && strings.length == 1) {
+        if (command.getName().equalsIgnoreCase("whitelistdeleteplayer") && strings.length == 1)
             return processDeletePlayerCommand(commandSender, strings[0]);
-        } else if (command.getName().equalsIgnoreCase("whitelistinquire")) {
+        if (command.getName().equalsIgnoreCase("whitelistinquire"))
             return processInquireCommand(commandSender);
-        } else {
-            commandSender.sendMessage("wrong command");
-            return false;
-        }
+
+        commandSender.sendMessage("wrong command");
+        return false;
+
     }
 
     private boolean processAddPlayerCommand(CommandSender commandSender, String playerName) {
