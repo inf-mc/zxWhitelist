@@ -36,7 +36,7 @@ public class DatabaseInitializer {
 
     // 创建 whitelist 表
     private static void createWhitelistTable(Connection connection) throws SQLException {
-        // 检查表是否存在
+        // 检查指定数据库中表是否存在
         DatabaseMetaData metaData = connection.getMetaData();
         ResultSet resultSet = metaData.getTables(JdbcUtil.databaseName, null, "whitelist", null);
         if (!resultSet.next()) {

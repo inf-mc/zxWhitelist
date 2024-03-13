@@ -1,17 +1,19 @@
 package com.zhuoxin.whitelist.util;
 
-import java.io.InputStream;
-import java.sql.*;
-import java.util.Properties;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.util.Arrays;
+import java.util.List;
 
 //获取到db.properties文件中的数据库信息
 public class JdbcUtil {
-    //私有变量
-    private static String driver;
-    private static String url;
+    static String driver;
+    static String url;
     static String databaseName;
-    private static String user;
-    private static String password;
+    static String user;
+    static String password;
 
 
     public static void setConfig(String driver, String url, String databaseName, String user, String password) {
@@ -20,6 +22,9 @@ public class JdbcUtil {
         JdbcUtil.databaseName = databaseName;
         JdbcUtil.user = user;
         JdbcUtil.password = password;
+    }
+    public static List<String> getConfigList() {
+        return Arrays.asList(driver, url, databaseName, user, password);
     }
 
     //返回数据库连接
