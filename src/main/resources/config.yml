@@ -6,3 +6,14 @@ password:
 
 dbNameRule: ^[a-z][a-z0-9_]{0,63}$
 userNameRule: ^[a-zA-Z][a-zA-Z0-9_]{3,16}$
+
+# Do not change the default configuration!
+default:
+  driver: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/
+  databaseName:
+  user:
+  password:
+
+  dbNameRule: ^[a-z][a-z0-9_]{0,63}$
+  userNameRule: ^[a-zA-Z][a-zA-Z0-9_]{3,16}$
