@@ -19,7 +19,7 @@ public class JdbcUtil {
     public static void setConfig(String driver, String url, String databaseName, String user, String password) {
         JdbcUtil.driver = driver;
         JdbcUtil.url = url;
-        JdbcUtil.databaseName = databaseName;
+        JdbcUtil.databaseName = databaseName.toLowerCase();
         JdbcUtil.user = user;
         JdbcUtil.password = password;
     }

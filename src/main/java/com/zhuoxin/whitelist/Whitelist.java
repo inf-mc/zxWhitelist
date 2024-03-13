@@ -15,11 +15,7 @@ import java.util.logging.Logger;
 public final class Whitelist extends JavaPlugin {
 
     public static FileConfiguration config;
-
-    public static void useConsoleOutput(String text) {
-        System.out.println(text);
-    }
-
+    public static String userNameRule;
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -29,28 +25,35 @@ public final class Whitelist extends JavaPlugin {
         saveDefaultConfig();
         // 读取配置信息
         config = getConfig();
+        // 存入数据库连接信息
         JdbcUtil.setConfig(config.getString("driver"), config.getString("url"),
                 config.getString("databaseName"), config.getString("user"), config.getString("password"));
+        //存入用户名规则信息
+        userNameRule=config.getString("userNameRule","^[a-zA-Z][a-zA-Z0-9_]{3,16}$");
         // 判断配置信息中是否有空值
         List<String> configList= JdbcUtil.getConfigList();
         boolean hasEmptyValue = configList.stream().anyMatch(value -> value == null || value.isEmpty());
+        // 判断数据库命是否合法
+        boolean legalDatabaseName = configList.get(2).matches(config.getString("dbNameRule","^[a-z][a-z0-9_]{0,63}$"));
 
-        if (!hasEmptyValue) {
-            // 注册监听器
-            Bukkit.getPluginManager().registerEvents(new EventListener(), this);
-            // 申请命令
-            getCommand("whitelistaddplayer").setExecutor(new CommandDeal());
-            getCommand("whitelistdeleteplayer").setExecutor(new CommandDeal());
-            getCommand("whitelistinquire").setExecutor(new CommandDeal());
-            //检查数据库状态
-            DatabaseInitializer.initializeDatabase();
-            //提示插件加载成功
-            logger.log(Level.INFO,"Plugin load success!");
+        if (!hasEmptyValue ) {
+            if (!legalDatabaseName){
+                logger.log(Level.WARNING,"databaseName is illegal");
+            }else {
+                // 注册监听器
+                Bukkit.getPluginManager().registerEvents(new EventListener(), this);
+                // 申请命令
+                getCommand("whitelistaddplayer").setExecutor(new CommandDeal());
+                getCommand("whitelistdeleteplayer").setExecutor(new CommandDeal());
+                getCommand("whitelistinquire").setExecutor(new CommandDeal());
+                //检查数据库状态
+                DatabaseInitializer.initializeDatabase();
+                //提示插件加载成功
+                logger.log(Level.INFO, "Plugin load success!");
+            }
         }else{
-            logger.log(Level.WARNING, "please edit zxWhitelist/config.yml then reload");
+            logger.log(Level.WARNING, "please edit plugins/zxWhitelist/config.yml then reload");
         }
-
-
     }
 
     @Override
