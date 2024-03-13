@@ -29,20 +29,8 @@ public class JdbcUtil {
             Class.forName(driver);
             //获取数据库连接（里面内容依次是：主机名和端口、用户名、密码）
             Connection connection = DriverManager.getConnection(url, user, password);
-            // 检查数据库是否存在
-            DatabaseMetaData metaData = connection.getMetaData();
-            ResultSet resultSet = metaData.getCatalogs();
-            boolean databaseExists = false;
-            while (resultSet.next()) {
-                String dbName = resultSet.getString(1);
-                if (dbName.equals(databaseName)) {
-                    databaseExists = true;
-                    break;
-                }
-            }
-            resultSet.close();
             // 如果数据库存在，则指定数据库
-            if (databaseExists) {
+            if (databaseExists(connection)) {
                 connection.setCatalog(databaseName);
             }
             //返回数据库连接
@@ -51,5 +39,25 @@ public class JdbcUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    // 检查数据库是否存在
+    public static boolean databaseExists(Connection connection) {
+        boolean databaseExists = false;
+        try {
+            DatabaseMetaData metaData = connection.getMetaData();
+            ResultSet resultSet = metaData.getCatalogs();
+            while (resultSet.next()) {
+                String dbName = resultSet.getString(1);
+                if (dbName.equals(databaseName)) {
+                    databaseExists = true;
+                    break;
+                }
+            }
+            resultSet.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return databaseExists;
     }
 }

@@ -24,20 +24,9 @@ public class DatabaseInitializer {
 
     // 创建数据库
     private static void createDatabase(Connection connection, String databaseName) throws SQLException {
-        // 检查数据库是否存在
-        DatabaseMetaData metaData = connection.getMetaData();
-        ResultSet resultSet = metaData.getCatalogs();
-        boolean databaseExists = false;
-        while (resultSet.next()) {
-            String dbName = resultSet.getString(1);
-            if (dbName.equals(databaseName)) {
-                databaseExists = true;
-                break;
-            }
-        }
-        resultSet.close();
+
         // 如果数据库不存在，则创建数据库
-        if (!databaseExists) {
+        if (!JdbcUtil.databaseExists(connection)) {
             String createDatabaseSQL = "CREATE DATABASE " + databaseName;
             try (PreparedStatement statement = connection.prepareStatement(createDatabaseSQL)) {
                 statement.executeUpdate();
@@ -49,7 +38,7 @@ public class DatabaseInitializer {
     private static void createWhitelistTable(Connection connection) throws SQLException {
         // 检查表是否存在
         DatabaseMetaData metaData = connection.getMetaData();
-        ResultSet resultSet = metaData.getTables(null, null, "whitelist", null);
+        ResultSet resultSet = metaData.getTables(JdbcUtil.databaseName, null, "whitelist", null);
         if (!resultSet.next()) {
             // 表不存在，创建表
             String createTableSQL = "CREATE TABLE whitelist (" +
