@@ -9,15 +9,17 @@ public class JdbcUtil {
     //私有变量
     private static String driver;
     private static String url;
+    static String databaseName;
     private static String user;
     private static String password;
 
 
-    public static void setConfig(String driver, String url, String user, String password){
-        JdbcUtil.driver =driver;
-        JdbcUtil.url =url;
-        JdbcUtil.user =user;
-        JdbcUtil.password =password;
+    public static void setConfig(String driver, String url, String databaseName, String user, String password) {
+        JdbcUtil.driver = driver;
+        JdbcUtil.url = url;
+        JdbcUtil.databaseName = databaseName;
+        JdbcUtil.user = user;
+        JdbcUtil.password = password;
     }
 
     //返回数据库连接
@@ -33,7 +35,7 @@ public class JdbcUtil {
             boolean databaseExists = false;
             while (resultSet.next()) {
                 String dbName = resultSet.getString(1);
-                if (dbName.equals("minecraft_whitelist")) {
+                if (dbName.equals(databaseName)) {
                     databaseExists = true;
                     break;
                 }
@@ -41,7 +43,7 @@ public class JdbcUtil {
             resultSet.close();
             // 如果数据库存在，则指定数据库
             if (databaseExists) {
-                connection.setCatalog("minecraft_whitelist");
+                connection.setCatalog(databaseName);
             }
             //返回数据库连接
             return connection;

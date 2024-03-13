@@ -28,7 +28,7 @@ public final class Whitelist extends JavaPlugin {
         saveDefaultConfig();
         // 读取配置信息
         config = getConfig();
-        JdbcUtil.setConfig(config.getString("driver"), config.getString("url"),
+        JdbcUtil.setConfig(config.getString("driver"), config.getString("url"), config.getString("databaseName"),
                 config.getString("user"), config.getString("password"));
         //检查数据库状态
         DatabaseInitializer.initializeDatabase();
