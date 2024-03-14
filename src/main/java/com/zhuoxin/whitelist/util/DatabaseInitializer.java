@@ -14,8 +14,6 @@ public class DatabaseInitializer {
                 connection.setCatalog( JdbcUtil.databaseName);
                 // 创建 whitelist 表
                 createWhitelistTable(connection);
-                // 创建 bind 表
-//                createBindTable(connection);
             }
         } catch (SQLException e) {
             e.printStackTrace();

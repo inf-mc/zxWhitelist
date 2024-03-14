@@ -1,19 +1,23 @@
-driver: com.mysql.cj.jdbc.Driver
-url: jdbc:mysql://localhost:3306/
-databaseName:
-user:
-password:
-
-dbNameRule: ^[a-z][a-z0-9_]{0,63}$
-userNameRule: ^[a-zA-Z][a-zA-Z0-9_]{3,16}$
-
-# Do not change the default configuration!
-default:
-  driver: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://localhost:3306/
-  databaseName:
+# 冒号后面需要空格隔开
+database:
+  host: localhost:3306
+  dbName:
   user:
   password:
+  # 合法库名和用户名的正则表达式
+  rules:
+    dbName: ^[a-z][a-z0-9_]{0,63}$
+    userName: ^[a-zA-Z][a-zA-Z0-9_]{2,15}$
 
-  dbNameRule: ^[a-z][a-z0-9_]{0,63}$
-  userNameRule: ^[a-zA-Z][a-zA-Z0-9_]{3,16}$
+# 默认配置，不要更改
+# 上面的配置填错了可以参考
+default:
+  database:
+    host: localhost:3306
+    dbName:
+    user:
+    psw:
+
+    rules:
+      dbName: ^[a-z][a-z0-9_]{0,63}$
+      userName: ^[a-zA-Z][a-zA-Z0-9_]{2,15}$
