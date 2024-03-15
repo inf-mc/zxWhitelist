@@ -54,6 +54,10 @@ public class DatabaseOperate {
 
     // 删除名单中的指定姓名
     public boolean deleteName(String name) {
+        if (!nameExists(name)){
+            whitelist.getLogger().log(Level.WARNING,"该玩家名不存在于白名单中");
+            return false;
+        }
         String sql = "DELETE FROM whitelist WHERE name = ?";
         try (Connection connection = jdbcUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
