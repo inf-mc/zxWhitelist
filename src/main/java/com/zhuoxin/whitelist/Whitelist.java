@@ -5,6 +5,7 @@ import com.zhuoxin.whitelist.dbtool.DatabaseInitialize;
 import com.zhuoxin.whitelist.dbtool.DatabaseOperate;
 import com.zhuoxin.whitelist.dbtool.JdbcUtil;
 import com.zhuoxin.whitelist.listener.PlayerJoinListener;
+import com.zhuoxin.whitelist.websever.WebSever;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,6 +18,7 @@ public final class Whitelist extends JavaPlugin {
     JdbcUtil jdbcUtil = new JdbcUtil(this);
     DatabaseInitialize databaseInitialize = new DatabaseInitialize(this, jdbcUtil);
     DatabaseOperate databaseOperate = new DatabaseOperate(this, jdbcUtil);
+    WebSever webSever = new WebSever(this,databaseOperate);
     Logger logger = getLogger();
 
     @Override
@@ -59,5 +61,7 @@ public final class Whitelist extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        Bukkit.getPluginManager().disablePlugin(this); // 取消注册所有监听器
+        logger.log(Level.INFO, "zxWhitelist插件已被禁用");
     }
 }
