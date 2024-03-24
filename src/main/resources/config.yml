@@ -9,6 +9,9 @@ database:
     dbName: ^[a-z][a-z0-9_]{0,63}$
     userName: ^[a-zA-Z][a-zA-Z0-9_]{2,15}$
 
+webSever:
+  port: 2333
+
 # 默认配置，不要更改
 # 上面的配置填错了可以参考
 default:
@@ -21,3 +24,5 @@ default:
     rules:
       dbName: ^[a-z][a-z0-9_]{0,63}$
       userName: ^[a-zA-Z][a-zA-Z0-9_]{2,15}$
+  webSever:
+    port: 2333

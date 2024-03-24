@@ -22,7 +22,7 @@ public class JdbcUtil {
     public JdbcUtil(Whitelist whitelist) {
         this.whitelist = whitelist;
         this.driver = "com.mysql.cj.jdbc.Driver";
-        this.url = "jdbc:mysql://" + whitelist.getConfig().getString("database.host");
+        this.url = "jdbc:mysql://" + whitelist.getConfig().getString("database.host","localhost:3306");
         this.dbName = Objects.requireNonNull(whitelist.getConfig().getString("database.dbName")).toLowerCase();
         this.user = whitelist.getConfig().getString("database.user");
         this.pw = whitelist.getConfig().getString("database.password");
