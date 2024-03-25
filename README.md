@@ -10,16 +10,22 @@
 
 > `whitelistaddplayer 'name'`  
 Abbreviated: `wla 'name'`  
-API: `localhost:'port'/wla/'name'`
+API: `localhost:'port'/api/wla`
 
 #### 2. Delete player
 
 > `whitelistdelete 'name'`  
 Abbreviated: `wld 'name'`  
-API: `localhost:'port'/wld/'name'`
+API: `localhost:'port'/api/wld`
 
 #### 3. Inquire
 
 > `whitelistinqure`  
 Abbreviated: `wli`  
-API: `localhost:'port'/wli`
+API: `localhost:'port'/api/wli`  
+
+**⚠**: `add` and `delete` are `'POST'`,need to use body in json format  
+such as:  
+> {  
+> "name": "lisi"  
+> }  
