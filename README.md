@@ -24,8 +24,10 @@ API: `localhost:'port'/api/wld`
 Abbreviated: `wli`  
 API: `localhost:'port'/api/wli`  
 
-**⚠**: `add` and `delete` are `'POST'`,need to use body in json format  
-such as:  
-> {  
-> "name": "lisi"  
-> }  
+### **⚠**: `add` and `delete` are `'POST'`  
+need to use body in json format,such as:  
+```json
+{
+    "name": "lisi"
+}
+```
